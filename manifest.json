@@ -1,0 +1,16 @@
+{
+    "name": "ticket",
+    "version": "1.0.0",
+    "description": "not available",
+    "manifest_version": 3,
+    "author": "sv",
+    "action":{
+        "default_popup": "popup.html",
+        "default_title": "ticket-title",
+        "default_icon": {
+            "16": "train.png",
+            "48": "train.png",
+            "128": "train.png"
+          }
+    }
+}

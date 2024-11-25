@@ -1,0 +1,22 @@
+[
+    {
+        "station_name": "Delhi",
+        "station_code": "NDLS"
+    },
+    {
+        "station_name": "Gorakhpur",
+        "station_code": "GKP"
+    },
+    {
+        "station_name": "Gwalior",
+        "station_code": "GWL"
+    },
+    {
+        "station_name": "Lucknoe",
+        "station_code": "LKO"
+    },
+    {
+        "station_name": "Bangalore",
+        "station_code": "SBC"
+    }
+]

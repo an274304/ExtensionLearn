@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket</title>
+    <script src="popup.js"></script>
+    <link rel="stylesheet" href="popup.css">
+</head>
+
+<body>
+    <div style="width: 800px;">
+        <div style="text-align: center;">
+            <h2>Hello Developer</h2>
+        </div>
+
+        <fieldset>
+            <legend>
+                <h1>Set Click Times</h1>
+            </legend>
+            <label for="click-time1">AC (hh:mm:ss):</label>
+            <input type="text" id="click-time1" placeholder="10:00:00" maxlength="8" />
+
+            <label for="click-time2">Sleeper (hh:mm:ss):</label>
+            <input type="text" id="click-time2" placeholder="11:00:00" maxlength="8" />
+
+            <button id="save-time">Save Times</button>
+
+        </fieldset>
+
+        <fieldset>
+            <legend>
+                <h4>IRCTC Login credentials</h4>
+            </legend>
+            <label> Username </label>
+            <input type="text" id="irctc-login" name="irctc-login" size="15" />
+            <label> Password </label>
+            <input id="irctc-password" name="irctc-password" type="password" size="15" /> <br>
+        </fieldset>
+
+
+        <fieldset>
+            <legend>
+                <h4>Journey Details</h4>
+            </legend>
+
+            <div class="">
+                <label for="from-station-input">
+                    Source
+                </label>
+                <input id="from" name="from-station" class="dropdown-input" type="text" size="30" />
+                <ul id="from-station-list" class="dropdown-list">
+                </ul>
+            </div>
+
+            <div class="">
+                <label for="destination-station-input">
+                    Destination
+                </label>
+                <input id="to" name="destination-station" class="dropdown-input" type="text" size="30" />
+                <ul id="destination-station-list" class="dropdown-list">
+                </ul>
+            </div>
+
+            </br>
+
+            <label>Date</label>
+            <input id="journey-date" name="journey-date" type="date" />
+
+
+            <label> Class </label>
+            <select name="class" id="journey-class-input">
+                <option value="">All Classes</option>
+                <option value="1A">AC First Class (1A)</option>
+                <option value="2A">AC 2 Tier (2A)</option>
+                <option value="3A">AC 3 Tier (3A)</option>
+                <option value="SL">Sleeper (SL)</option>
+                <option value="3E">AC 3 Economy (3E)</option>
+                <option value="CC">AC Chair car (CC)</option>
+                <option value="2S">Second Sitting (2S)</option>
+                <option value="EV">Vistadome AC (EV)</option>
+            </select>
+
+            </br>
+
+            </br>
+            <label> Quota </label>
+            <select name="Quota" id="quota-input">
+                <option value="GN">GENERAL</option>
+                <option value="TQ">TATKAL</option>
+                <option value="PT">PREMIUM TATKAL</option>
+            </select>
+
+
+            <label> Train no. </label>
+
+            <input type="text" id="train-no" name="train-no" size="15" placeholder="5-digit Train number" />
+
+        </fieldset>
+
+        <fieldset>
+            <legend>
+                <h4>Passenger Details || Passenger Limit ~ Tatkal = 4 , General = 6 </h4>
+            </legend>
+            
+            <label> Passenger 1 </label>
+            <input type="text" id="passenger-name-1" name="name" size="16" placeholder="Name" maxlength="16" />
+            <input type="number" id="age-1" name="age" size="5" placeholder="Age" />
+            <select name="gender" id="passenger-gender-1">
+                <option value="">Gender</option>
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+            </select>
+            <select name="berth" id="passenger-berth-1">
+                <option value="">No Preference</option>
+                <option value="UB">Upper</option>
+                <option value="LB">Lower</option>
+                <option value="MB">Middle</option>
+                <option value="SL">Side Lower</option>
+                <option value="SU">Side Upper</option>
+            </select>
+            <br>
+            <label> Passenger 2 </label>
+            <input type="text" id="passenger-name-2" name="name" size="16" placeholder="Name" maxlength="16" />
+            <input type="number" id="age-2" name="age" size="15" placeholder="Age" />
+            <select name="gender" id="passenger-gender-2">
+                <option value="">Gender</option>
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+            </select>
+            <select name="berth" id="passenger-berth-2">
+                <option value="">No Preference</option>
+                <option value="UB">Upper</option>
+                <option value="LB">Lower</option>
+                <option value="MB">Middle</option>
+                <option value="SL">Side Lower</option>
+                <option value="SU">Side Upper</option>
+            </select>
+            <br>
+            <label> Passenger 3 </label>
+            <input type="text" id="passenger-name-3" name="name" placeholder="Name" size="16" maxlength="16" />
+            <input type="number" id="age-3" name="age" size="15" placeholder="Age" />
+            <select name="gender" id="passenger-gender-3">
+                <option value="">Gender</option>
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+            </select>
+            <select name="berth" id="passenger-berth-3">
+                <option value="">No Preference</option>
+                <option value="UB">Upper</option>
+                <option value="LB">Lower</option>
+                <option value="MB">Middle</option>
+                <option value="SL">Side Lower</option>
+                <option value="SU">Side Upper</option>
+            </select>
+            <br>
+            <label> Passenger 4 </label>
+            <input type="text" id="passenger-name-4" name="name" size="16" placeholder="Name" maxlength="16" />
+            <input type="number" id="age-4" name="age" size="5" placeholder="Age" />
+            <select name="gender" id="passenger-gender-4">
+                <option value="">Gender</option>
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+            </select>
+            <select name="berth" id="passenger-berth-4">
+                <option value="">No Preference</option>
+                <option value="UB">Upper</option>
+                <option value="LB">Lower</option>
+                <option value="MB">Middle</option>
+                <option value="SL">Side Lower</option>
+                <option value="SU">Side Upper</option>
+            </select>
+            <br>
+            <label> Passenger 5 </label>
+            <input type="text" id="passenger-name-5" name="name" size="16" placeholder="Name" maxlength="16" />
+            <input type="number" id="age-5" name="age" size="5" placeholder="Age" />
+            <select name="gender" id="passenger-gender-5">
+                <option value="">Gender</option>
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+            </select>
+            <select name="berth" id="passenger-berth-5">
+                <option value="">No Preference</option>
+                <option value="UB">Upper</option>
+                <option value="LB">Lower</option>
+                <option value="MB">Middle</option>
+                <option value="SL">Side Lower</option>
+                <option value="SU">Side Upper</option>
+            </select>
+            <br>
+            <label> Passenger 6 </label>
+            <input type="text" id="passenger-name-6" name="name" size="16" placeholder="Name" maxlength="16" />
+            <input type="number" id="age-6" name="age" size="15" placeholder="Age" />
+            <select name="gender" id="passenger-gender-6">
+                <option value="">Gender</option>
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+            </select>
+            <select name="berth" id="passenger-berth-6">
+                <option value="">No Preference</option>
+                <option value="UB">Upper</option>
+                <option value="LB">Lower</option>
+                <option value="MB">Middle</option>
+                <option value="SL">Side Lower</option>
+                <option value="SU">Side Upper</option>
+            </select>
+            <br>
+        </fieldset>
+
+
+
+        <fieldset>
+            <legend>
+                <label for="mobileNumber">Enter Mobile Number:</label>
+                <input type="text" id="mobileNumber" name="mobileNumber" required pattern="\d{10}" maxlength="10"
+                    title="Please enter a 10-digit mobile number">
+        </fieldset>
+
+
+        <fieldset>
+            <legend>
+                <h4>Additional choice</h4>
+            </legend>
+            <input id="autoUpgradation" name="autoUpgradation" type="checkbox" />
+            Consider for Auto Upgradation
+            &nbsp;&nbsp;
+            <input id="confirmberths" name="confirmberths" type="checkbox" />
+            Book only if confirm berths are allotted.
+            </br>
+            </br>
+            Travel insurance
+            <input id="travelInsuranceOpted-1" value="yes" name="travelInsuranceOpted" type="radio" />
+            Yes
+
+            <input id="travelInsuranceOpted-2" value="no" name="travelInsuranceOpted" type="radio" />
+            No
+
+            </br>
+
+        </fieldset>
+    </div>
+</body>
+
+</html>
