@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
             listItem.onclick = function () {
                 // Update the input field with the selected station name
                 inputField.value = station.station_name;
-                // Store the station code for later use (you can save it in a hidden field or variable)
+                // Store the station code for later use
                 inputField.setAttribute('data-station-code', station.station_code);
                 dropdownList.innerHTML = ''; // Clear the list after selection
             };
@@ -85,31 +85,199 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    // Function to save data to chrome.storage
+    function saveData() {
+        const irctcLogin = document.getElementById('irctc-login').value;
+        const irctcPassword = document.getElementById('irctc-password').value;
 
-    // Step 1: Trigger the click event to open the dropdown
-    const seatTypeDropdownTrigger = document.querySelector('#journeyClass .ui-dropdown-trigger');
-    seatTypeDropdownTrigger.click();  // This will open the dropdown
+        const fromStation = document.getElementById('from').value;
+        const fromStationCode = document.getElementById('from').getAttribute('data-station-code'); // Get station code
 
-    // Step 2: Find the option with the text 'Second Sitting (2S)'
-    const seatTypeDropdownOption = Array.from(document.querySelectorAll('#journeyClass .ui-dropdown-item'))
-        .find(item => item.textContent.trim() === 'Second Sitting (2S)');
+        const toStation = document.getElementById('to').value;
+        const toStationCode = document.getElementById('to').getAttribute('data-station-code'); // Get station code
 
-    // Step 3: Select the option if it exists
-    if (seatTypeDropdownOption) {
-        seatTypeDropdownOption.click();  // Click the option to select it
+        const journeyDate = document.getElementById('journey-date').value;
+        const journeyClass = document.getElementById('journey-class-input').value;
+        const quota = document.getElementById('quota-input').value;
+        const trainNo = document.getElementById('train-no').value;
+
+        // Time values
+        const departureTime = document.getElementById('click-time1').value;
+        const arrivalTime = document.getElementById('click-time2').value;
+
+        const passengers = [];
+        for (let i = 1; i <= 6; i++) {
+            const passengerName = document.getElementById(`passenger-name-${i}`).value;
+            const passengerAge = document.getElementById(`age-${i}`).value;
+            const passengerGender = document.getElementById(`passenger-gender-${i}`).value;
+            const passengerBerth = document.getElementById(`passenger-berth-${i}`).value;
+            if (passengerName) { // Save only if passenger's name is filled in
+                passengers.push({
+                    name: passengerName,
+                    age: passengerAge,
+                    gender: passengerGender,
+                    berth: passengerBerth
+                });
+            }
+        }
+
+        const mobileNumber = document.getElementById('mobileNumber').value;
+        const autoUpgradation = document.getElementById('autoUpgradation').checked;
+        const confirmBerths = document.getElementById('confirmberths').checked;
+        const travelInsuranceOpted = document.querySelector('input[name="travelInsuranceOpted"]:checked')?.value;
+
+        // Save login details
+        chrome.storage.sync.set({
+            loginDetails: {
+                irctcLogin,
+                irctcPassword
+            }
+        }, function () {
+            console.log('Login details saved');
+        });
+
+        // Save times
+        chrome.storage.sync.set({
+            times: {
+                departureTime,
+                arrivalTime
+            }
+        }, function () {
+            console.log('Time details saved');
+        });
+
+        // Save journey details
+        chrome.storage.sync.set({
+            journeyDetails: {
+                fromStation,
+                fromStationCode,  // Save the from station code
+                toStation,
+                toStationCode,    // Save the to station code
+                journeyDate,
+                journeyClass,
+                quota,
+                trainNo
+            }
+        }, function () {
+            console.log('Journey details saved');
+        });
+
+        // Save passenger and additional details in one variable
+        chrome.storage.sync.set({
+            passengerAndAdditionalDetails: {
+                passengers,
+                mobileNumber,
+                autoUpgradation,
+                confirmBerths,
+                travelInsuranceOpted
+            }
+        }, function () {
+            console.log('Passenger and Additional details saved');
+        });
+
+        alert('Data Saved!');
     }
 
+    // Function to load data from chrome.storage
+    function loadData() {
+        chrome.storage.sync.get(['loginDetails', 'times', 'journeyDetails', 'passengerAndAdditionalDetails'], function (result) {
+            const { loginDetails, times, journeyDetails, passengerAndAdditionalDetails } = result;
 
-    // Step 1: Trigger the click event to open the dropdown
-    const ticketTypeDropdownTrigger = document.querySelector('#journeyQuota .ui-dropdown-trigger');
-    ticketTypeDropdownTrigger.click();  // This will open the dropdown
+            if (loginDetails) {
+                document.getElementById('irctc-login').value = loginDetails.irctcLogin || '';
+                document.getElementById('irctc-password').value = loginDetails.irctcPassword || '';
+            }
 
-    // Step 2: Find the option with the text 'GENERAL'
-    const ticketTypeDropdownOption = Array.from(document.querySelectorAll('#journeyQuota .ui-dropdown-item'))
-        .find(item => item.textContent.trim() === 'GENERAL');
+            if (times) {
+                document.getElementById('click-time1').value = times.departureTime || '';
+                document.getElementById('click-time2').value = times.arrivalTime || '';
+            }
 
-    // Step 3: Select the option if it exists
-    if (ticketTypeDropdownOption) {
-        ticketTypeDropdownOption.click();  // Click the option to select it
+            if (journeyDetails) {
+                document.getElementById('from').value = journeyDetails.fromStation || '';
+                document.getElementById('to').value = journeyDetails.toStation || '';
+                document.getElementById('journey-date').value = journeyDetails.journeyDate || '';
+                document.getElementById('journey-class-input').value = journeyDetails.journeyClass || '';
+                document.getElementById('quota-input').value = journeyDetails.quota || '';
+                document.getElementById('train-no').value = journeyDetails.trainNo || '';
+            }
+
+            if (passengerAndAdditionalDetails) {
+                const { passengers, mobileNumber, autoUpgradation, confirmBerths, travelInsuranceOpted } = passengerAndAdditionalDetails;
+
+                passengers.forEach((passenger, index) => {
+                    if (index < 6) {
+                        document.getElementById(`passenger-name-${index + 1}`).value = passenger.name || '';
+                        document.getElementById(`age-${index + 1}`).value = passenger.age || '';
+                        document.getElementById(`passenger-gender-${index + 1}`).value = passenger.gender || '';
+                        document.getElementById(`passenger-berth-${index + 1}`).value = passenger.berth || '';
+                    }
+                });
+
+                document.getElementById('mobileNumber').value = mobileNumber || '';
+                document.getElementById('autoUpgradation').checked = autoUpgradation || false;
+                document.getElementById('confirmberths').checked = confirmBerths || false;
+                document.querySelector(`input[name="travelInsuranceOpted"][value="${travelInsuranceOpted}"]`).checked = true;
+            }
+        });
     }
+
+    // Function to reset form fields
+    function resetForm() {
+        const formElements = document.querySelectorAll('input, select');
+        formElements.forEach(el => {
+            if (el.type === 'checkbox' || el.type === 'radio') {
+                el.checked = false;
+            } else {
+                el.value = '';
+            }
+        });
+    }
+
+    // Event listener for Save button
+    document.getElementById('save-btn').addEventListener('click', function (event) {
+        event.preventDefault(); // Prevent form submission
+        saveData();
+    });
+
+    // Event listener for Load button
+    document.getElementById('load-btn').addEventListener('click', function (event) {
+        event.preventDefault(); // Prevent form submission
+        loadData();
+    });
+
+    // Event listener for Reset button
+    document.getElementById('reset-btn').addEventListener('click', function (event) {
+        event.preventDefault(); // Prevent form submission
+        resetForm();
+    });
+
+    // Event listener for Proceed button (example action)
+    document.getElementById('proceed-btn').addEventListener('click', function (event) {
+        // Log the action (you can also add additional action like preventing the default form submission if needed)
+        console.log("Proceeding with booking!");
+
+        // Step 1: Send a message to the background to open the new tab and automate the process
+        chrome.runtime.sendMessage({ action: "openAndAutomate" }, (response) => {
+            console.log(response.message); // Logs "Automation triggered" when successful
+        });
+
+        // Step 2: Query the active tab in the current window to inject the content script
+        chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+            // Inject the content script that will handle the autofill on the IRCTC pages
+            chrome.scripting.executeScript(
+                {
+                    target: { tabId: tabs[0].id },
+                    files: ['content.js'], // This will automate the actions on IRCTC pages
+                },
+                () => {
+                    console.log('Content script injected successfully');
+                }
+            );
+        });
+
+        // Optional: Additional code for proceeding with the action (form submission, etc.) can go here
+    });
+
+    
 });

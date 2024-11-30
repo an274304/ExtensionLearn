@@ -1,16 +1,47 @@
 {
-    "name": "ticket",
-    "version": "1.0.0",
-    "description": "not available",
-    "manifest_version": 3,
-    "author": "sv",
-    "action":{
-        "default_popup": "popup.html",
-        "default_title": "ticket-title",
-        "default_icon": {
-            "16": "train.png",
-            "48": "train.png",
-            "128": "train.png"
-          }
+  "name": "IRCTC Ticket Assistant",
+  "version": "1.0.0",
+  "description": "An extension to assist with ticket booking on IRCTC.",
+  "manifest_version": 3,
+  "author": "SV",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting"
+  ],
+  "optional_permissions": ["notifications"],
+  "host_permissions": ["https://www.irctc.co.in/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.irctc.co.in/nget/train-search",
+        "https://www.irctc.co.in/nget/booking/psgninput"
+      ],
+      "js": ["js/content.js"],
+      "run_at": "document_idle"
     }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "IRCTC Ticket Assistant",
+    "default_icon": {
+      "16": "train.png",
+      "48": "train.png",
+      "128": "train.png"
+    }
+  },
+  "icons": {
+    "16": "train.png",
+    "48": "train.png",
+    "128": "train.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["js/content.js"],
+      "matches": ["https://www.irctc.co.in/*"]
+    }
+  ]
 }
