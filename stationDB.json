@@ -1,19 +1,19 @@
 [
     {
-        "station_name": "Delhi",
+        "station_name": "NEW DELHI",
         "station_code": "NDLS"
     },
     {
-        "station_name": "Gorakhpur",
+        "station_name": "GORAKHPUR JN",
         "station_code": "GKP"
     },
     {
-        "station_name": "Gwalior",
+        "station_name": "GWALIOR",
         "station_code": "GWL"
     },
     {
-        "station_name": "Lucknoe",
-        "station_code": "LKO"
+        "station_name": "LUCKNOW CITY",
+        "station_code": "LC"
     },
     {
         "station_name": "Bangalore",

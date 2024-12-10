@@ -97,13 +97,18 @@ document.addEventListener("DOMContentLoaded", function () {
         const toStationCode = document.getElementById('to').getAttribute('data-station-code'); // Get station code
 
         const journeyDate = document.getElementById('journey-date').value;
-        const journeyClass = document.getElementById('journey-class-input').value;
-        const quota = document.getElementById('quota-input').value;
+
+        const journeyClassCode = document.getElementById('journey-class-input').value;
+        const journeyClass = document.getElementById('journey-class-input').options[document.getElementById('journey-class-input').selectedIndex].text;
+
+        const quotaCode = document.getElementById('quota-input').value;
+        const quota = document.getElementById('quota-input').options[document.getElementById('quota-input').selectedIndex].text;
+
         const trainNo = document.getElementById('train-no').value;
 
         // Time values
-        const departureTime = document.getElementById('click-time1').value;
-        const arrivalTime = document.getElementById('click-time2').value;
+        const clicktime1 = document.getElementById('click-time1').value;
+        const clicktime2 = document.getElementById('click-time2').value;
 
         const passengers = [];
         for (let i = 1; i <= 6; i++) {
@@ -139,8 +144,8 @@ document.addEventListener("DOMContentLoaded", function () {
         // Save times
         chrome.storage.sync.set({
             times: {
-                departureTime,
-                arrivalTime
+                clicktime1,
+                clicktime2
             }
         }, function () {
             console.log('Time details saved');
@@ -155,7 +160,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 toStationCode,    // Save the to station code
                 journeyDate,
                 journeyClass,
+                journeyClassCode,  // Save the to Class code
                 quota,
+                quotaCode, // Save the to Quota code
                 trainNo
             }
         }, function () {
@@ -189,16 +196,22 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             if (times) {
-                document.getElementById('click-time1').value = times.departureTime || '';
-                document.getElementById('click-time2').value = times.arrivalTime || '';
+                document.getElementById('click-time1').value = times.clicktime1 || '';
+                document.getElementById('click-time2').value = times.clicktime2 || '';
             }
 
             if (journeyDetails) {
                 document.getElementById('from').value = journeyDetails.fromStation || '';
+                document.getElementById('from').setAttribute('data-station-code', journeyDetails.fromStationCode ?? '');
+
                 document.getElementById('to').value = journeyDetails.toStation || '';
+                document.getElementById('to').setAttribute('data-station-code', journeyDetails.toStationCode ?? '');
+
                 document.getElementById('journey-date').value = journeyDetails.journeyDate || '';
-                document.getElementById('journey-class-input').value = journeyDetails.journeyClass || '';
-                document.getElementById('quota-input').value = journeyDetails.quota || '';
+
+                document.getElementById('journey-class-input').value = journeyDetails.journeyClassCode || '';
+                document.getElementById('quota-input').value = journeyDetails.quotaCode || '';
+
                 document.getElementById('train-no').value = journeyDetails.trainNo || '';
             }
 
@@ -279,5 +292,5 @@ document.addEventListener("DOMContentLoaded", function () {
         // Optional: Additional code for proceeding with the action (form submission, etc.) can go here
     });
 
-    
+
 });

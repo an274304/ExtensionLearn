@@ -74,3 +74,58 @@ try {
     //   "https://www.irctc.co.in/nget/train-search",
     //   "https://www.irctc.co.in/nget/booking/psgninput"
     // ],
+
+
+    // Function to process CAPTCHA and return a promise
+function processCaptchaAndLoginButton(captchaElement, captchaInput, logInBtn) {
+    let api = "https://script.google.com/macros/s/AKfycbz5tXQnhmXd0kcGR0GYaC2Y6lk1rMCS5uerAk8xmXrAauiNJB1n9mN__RvTnprO61sNdA/exec";
+    if (captchaElement) {
+        // Extract the src attribute value (Base64)
+        const srcValue = captchaElement.src;
+        let b64 = srcValue.split("base64,")[1];
+        let fileType = "image/jpg"; // The MIME type of the file
+        let fileName = "example.jpg"; // The file name
+
+        // Make API call to process the CAPTCHA
+        fetch(api, {
+            method: "POST",
+            body: JSON.stringify({
+                file: b64,
+                type: fileType,
+                name: fileName
+            })
+        })
+            .then(res => res.text())
+            .then(data => {
+
+                // Autofill Captcha Input with human-like typing
+                if (captchaInput) {
+
+                    const captchaValue = setCaptchaValue(data); // Assuming 'data' contains the CAPTCHA result
+                    captchaInput.value = captchaValue;
+                    captchaInput.dispatchEvent(new Event("input"));
+                    captchaInput.dispatchEvent(new Event("change"));
+
+
+                    // Click the Sign In button after the delay
+                    logInBtn.click();
+                }
+            })
+            .catch(error => {
+                // Handle errors, set error message in captcha input
+                console.log(error);
+                if (captchaComponent) {
+                    const captchaInput = captchaComponent.querySelector('#captcha');
+                    if (captchaInput) {
+                        captchaInput.value = "An_error_Captcha_Process";
+                    }
+                }
+            });
+
+
+    }
+    else {
+        console.log("Captcha Not found");
+    }
+
+}
